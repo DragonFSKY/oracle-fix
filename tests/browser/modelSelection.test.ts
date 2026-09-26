@@ -132,6 +132,12 @@ const evaluateMenuModelSelectionExpression = async (
           ) ?? null
         );
       }
+      // Owned-picker path: the reported radio must live inside this menu (mirrors the real DOM,
+      // where the menu's aria-labelledby points at the composer trigger).
+      if (selector.includes('[data-model-picker-view] [role="menuitemradio"]')) {
+        return this.children.find((child) => child.getAttribute("aria-checked") === "true") ?? null;
+      }
+      if (selector.includes("[data-model-picker-view]")) return this;
       return null;
     }
 
@@ -162,7 +168,9 @@ const evaluateMenuModelSelectionExpression = async (
   const expression = buildModelSelectionExpressionForTest(targetModel);
   const modelButton = new FakeElement("ChatGPT", {
     "data-testid": "model-switcher-dropdown-button",
+    id: "owned-trigger",
   });
+  Object.assign(modelButton, { id: "owned-trigger" });
   const options = Array.isArray(option) ? option : [option];
   const modelOptions = options.map(
     (item) =>
@@ -189,7 +197,7 @@ const evaluateMenuModelSelectionExpression = async (
   );
   const menu = new FakeElement(
     options.map((item) => item.label).join(" "),
-    { role: "menu" },
+    { role: "menu", "data-model-picker-view": "simple", "aria-labelledby": "owned-trigger" },
     modelOptions,
   );
   const menus = [...extraMenus, menu];
@@ -313,6 +321,12 @@ const evaluateIntelligenceModelSelectionExpression = async (
           ) ?? null
         );
       }
+      // Owned-picker path: the reported radio must live inside this menu (mirrors the real DOM,
+      // where the menu's aria-labelledby points at the composer trigger).
+      if (selector.includes('[data-model-picker-view] [role="menuitemradio"]')) {
+        return this.children.find((child) => child.getAttribute("aria-checked") === "true") ?? null;
+      }
+      if (selector.includes("[data-model-picker-view]")) return this;
       return null;
     }
 
@@ -1093,6 +1107,12 @@ const createNonPickerMenuForTest = (labels: string[]): unknown => {
           ) ?? null
         );
       }
+      // Owned-picker path: the reported radio must live inside this menu (mirrors the real DOM,
+      // where the menu's aria-labelledby points at the composer trigger).
+      if (selector.includes('[data-model-picker-view] [role="menuitemradio"]')) {
+        return this.children.find((child) => child.getAttribute("aria-checked") === "true") ?? null;
+      }
+      if (selector.includes("[data-model-picker-view]")) return this;
       return null;
     }
 

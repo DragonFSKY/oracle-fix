@@ -630,7 +630,11 @@ function buildModelSelectionExpression(
       return normalizedTokens.some((token) => token && label.includes(token));
     };
     const findCheckedAdvancedModelRadio = (menu = null) => {
-      const scope = menu || findUnifiedPickerMenu() || document;
+      // Local hardening: never fall back to a document-wide scan. A checked radio from an
+      // unrelated menu must not vouch for this picker's selection; without an owned menu we
+      // report "no evidence" instead of "selected".
+      const scope = menu || findUnifiedPickerMenu();
+      if (!scope) return null;
       return (
         scope?.querySelector?.(
           '[data-testid="composer-model-picker-slider-advanced-view"] [role="menuitemradio"][aria-checked="true"]',

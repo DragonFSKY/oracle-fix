@@ -1118,15 +1118,16 @@ function buildThinkingTimeExpression(
         node?.getAttribute('data-model-picker-view') === 'simple';
       const simple = simpleView();
       if (!simple || !isActiveSimple(simple) || !isVisible(simple)) return null;
-      if (TARGET_IS_ASTRA_LATEST && simple.getAttribute('data-model-picker-view') === 'simple') {
-        const checked = menu.querySelector?.('[data-model-picker-view] [role="menuitemradio"][aria-checked="true"]');
-        if (!['Latest', '最新', '최신'].includes((checked?.textContent ?? '').trim())) {
-          return failure('selection-unverified');
-        }
-      }
+
       const resolve = () => {
         const currentSimple = simpleView();
         if (!isActiveSimple(currentSimple)) return null;
+        // Local hardening: the radio may mount after the simple view; keep the check inside the
+        // bounded readiness wait instead of failing before the slider is even resolvable.
+        if (TARGET_IS_ASTRA_LATEST && currentSimple.getAttribute('data-model-picker-view') === 'simple') {
+          const checked = menu.querySelector?.('[data-model-picker-view] [role="menuitemradio"][aria-checked="true"]');
+          if (!['Latest', '最新', '최신'].includes((checked?.textContent ?? '').trim())) return null;
+        }
         const slider = currentSimple.querySelector('[data-model-reasoning-effort-slider]') ??
           currentSimple.querySelector('[data-model-picker-power-slider]');
         const control = slider?.closest?.('[role="menuitem"]');

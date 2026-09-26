@@ -345,7 +345,12 @@ describe("completion action correlation", () => {
       body: root,
       querySelector: (selector: string) => (selector === "main" ? root : null),
       querySelectorAll: (selector: string) => {
-        if (selector === '[data-testid^="conversation-turn"],[data-content-search-unit-key]') {
+        // Local: the container selector also carries [data-turn-key]; match by capability instead
+        // of the exact string so the stub follows the real selector set.
+        if (
+          selector.includes('conversation-turn') &&
+          (selector.includes('data-content-search-unit-key') || selector.includes('data-turn-key'))
+        ) {
           return [user, assistant];
         }
         if (selector.includes('key$=":user"')) return [user];

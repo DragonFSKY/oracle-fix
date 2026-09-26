@@ -334,9 +334,9 @@ async function archiveWithTrustedInput(
       const fresh = readback?.result?.value as
         | { recentCount?: number; currentPresent?: boolean }
         | undefined;
-      if ((fresh?.recentCount ?? 0) >= 3 && fresh?.currentPresent === false) {
-        return { status: "archived", conversationUrl };
-      }
+      // Local hardening: the conversation no longer appearing in the sidebar is not proof that
+      // archiving succeeded (the readback can be stale). Require the canonical is_archived flag.
+      void fresh;
       return { status: "skipped", reason: "archive-readback-pending", conversationUrl };
     }
     await new Promise((resolve) => setTimeout(resolve, 150));
