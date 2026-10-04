@@ -66,7 +66,7 @@
     "chrome-remote-interface": "^0.34.0",
     "clipboardy": "^5.3.2",
     "commander": "^15.0.0",
-    "dotenv": "^17.4.2",
+    "dotenv": "^18.0.5",
     "fast-glob": "^3.3.3",
     "gpt-tokenizer": "^4.0.0",
     "inquirer": "14.2.2",
@@ -79,7 +79,7 @@
     "shiki": "^4.4.3",
     "toasted-notifier": "^10.1.0",
     "tokentally": "^0.1.6",
-    "undici": "^7.29.1",
+    "undici": "^8.11.2",
     "zod": "^4.6.2"
   },
   "devDependencies": {
@@ -87,16 +87,16 @@
     "@modelcontextprotocol/sdk": "^1.30.0",
     "@types/chrome-remote-interface": "^0.34.0",
     "@types/node": "^26.6.2",
-    "@vitest/coverage-v8": "5.0.1",
-    "devtools-protocol": "0.0.1702366",
+    "@vitest/coverage-v8": "5.0.3",
+    "devtools-protocol": "0.0.1707781",
     "es-toolkit": "^1.52.0",
     "esbuild": "^0.28.2",
-    "oxfmt": "0.70.0",
+    "oxfmt": "0.71.0",
     "oxlint": "^1.85.0",
     "puppeteer-core": "^25.10.0",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
-    "vitest": "5.0.1"
+    "vitest": "5.0.3"
   },
   "devEngines": {
     "runtime": [
